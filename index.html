@@ -1,32 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Weather</h1>
-        <div class="search-box">
-            <input type="text" id="city" placeholder="Enter city name...">
-            <button id="getWeather">🔍</button>
-        </div>
-        <div id="weatherResult" class="hidden">
-            <h2 id="cityName"></h2>
-            <img id="weatherIcon" src="" alt="Weather">
-            <p id="description"></p>
-            <div class="weather-details">
-                <p><strong>Temperature:</strong> <span id="temp"></span>°C</p>
-                <p><strong>Humidity:</strong> <span id="humidity"></span>%</p>
-                <p><strong>Wind:</strong> <span id="wind"></span> m/s</p>
-            </div>
-        </div>
-        <p id="errorMessage" class="error hidden">City not found, please try again.</p>
-        <div id="hourlyContainer" class="hourly-container"></div>
-        <button id="toggleMode" class="toggle-btn">🌙</button>
+<body id="mainBody" class="bg-cover bg-center transition-colors duration-300 text-gray-900 dark:text-white">
+
+
+  <div class="container mx-auto p-4 max-w-2xl">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-3xl font-bold">🌤️ Weather App</h1>
+      <button id="toggleMode" class="text-xl">🌙</button>
     </div>
+
+    <div class="flex gap-2 mb-4">
+      <input type="text" id="city" placeholder="Enter city..." class="flex-1 p-2 rounded border border-gray-300 dark:bg-gray-800"/>
+      <button id="getWeather" class="bg-blue-500 text-white px-4 rounded">🔍</button>
+      <button id="getLocation" class="bg-green-500 text-white px-4 rounded">📍</button>
+    </div>
+
+    <div id="weatherResult" class="hidden bg-white dark:bg-gray-800 p-4 rounded shadow">
+      <h2 id="cityName" class="text-xl font-semibold mb-2"></h2>
+      <img id="weatherIcon" src="" alt="Weather Icon" class="w-20 mx-auto"/>
+      <p id="description" class="text-center capitalize"></p>
+      <div class="text-sm mt-2">
+        <p><strong>Temperature:</strong> <span id="temp"></span>°C</p>
+        <p><strong>Humidity:</strong> <span id="humidity"></span>%</p>
+        <p><strong>Wind:</strong> <span id="wind"></span> m/s</p>
+      </div>
+    </div>
+
+    <div id="hourlyContainer" class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-6"></div>
+    <canvas id="chart" class="mt-6 w-full max-w-full"></canvas>
+
+    <div class="mt-6">
+      <h3 class="text-xl font-bold mb-2">Rate this city</h3>
+      <select id="rating" class="w-full mb-2 p-2 border rounded dark:bg-gray-800">
+        <option value="">Choose a rating</option>
+        <option value="1">⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+      </select>
+      <textarea id="comment" rows="3" class="w-full p-2 border rounded mb-2 dark:bg-gray-800" placeholder="Your comment..."></textarea>
+      <button id="submitReview" class="bg-purple-500 text-white px-4 py-2 rounded">Submit</button>
+    </div>
+
+    <div id="reviewList" class="mt-6 space-y-2"></div>
+
+    <p id="errorMessage" class="text-red-500 mt-4 hidden">City not found. Please try again.</p>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="./firebase.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
